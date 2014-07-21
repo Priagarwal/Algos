@@ -1,0 +1,10 @@
+
+public class ListNode {
+	int label;
+	ListNode next;
+	
+	public ListNode() {
+		
+	}
+
+}

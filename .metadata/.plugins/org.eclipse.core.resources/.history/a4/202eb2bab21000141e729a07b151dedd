@@ -1,0 +1,17 @@
+
+public class Main {
+	
+	void sumToZero(int a[], int n) {
+		
+	}
+	
+	
+	public Main() {
+		}
+
+	public static void main(String[] args) {
+		System.out.println("Hi");
+
+	}
+
+}

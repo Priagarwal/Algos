@@ -1,0 +1,28 @@
+
+public class DLLNode {
+	int val;
+	DLLNode next;
+	DLLNode prev;
+	
+	public DLLNode(int v) {
+		this.val = v;
+		this.next = null;
+		this.prev = null;
+	}
+	
+	public void setNext(DLLNode n) {
+		this.next = n;
+	}
+	
+	public void setPrev(DLLNode n) {
+		this.prev = n;
+	}
+	
+	public DLLNode getNext() {
+		return this.next;
+	}
+	
+	public DLLNode getPrev() {
+		return this.prev;
+	}
+}

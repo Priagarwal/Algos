@@ -1,0 +1,11 @@
+
+public class ListNode {
+	int label;
+	ListNode next;
+	
+	public ListNode(int l) {
+		this.label = l;
+		this.next = null;
+	}
+
+}

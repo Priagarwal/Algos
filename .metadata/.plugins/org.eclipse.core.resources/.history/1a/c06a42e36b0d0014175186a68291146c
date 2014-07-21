@@ -1,0 +1,11 @@
+
+public class PQ {
+	int a[];
+	int n;
+	
+	public PQ(int n) {
+		this.n = n;
+		a = new int[n];
+	}
+
+}

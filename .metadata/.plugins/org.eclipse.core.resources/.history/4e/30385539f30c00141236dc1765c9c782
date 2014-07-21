@@ -1,0 +1,130 @@
+import java.util.LinkedList;
+import java.util.Stack;
+
+public class Graph {
+	int nVertices;
+	Vertex vertices[];
+	ListNode[] edgeLists;
+	
+	public Graph(int n) {
+		this.nVertices = n;
+		vertices = new Vertex[n];
+		for (int i = 0; i < n; i++) {
+			vertices[i] = new Vertex(i);
+		}
+		edgeLists = new ListNode[n];
+		for (int i = 0; i < n; i++) {
+			edgeLists[i] = new ListNode();
+		}
+	}
+	
+	public void addEdge(int u, int v) {
+		if (u >= 0 && u < this.nVertices && v >= 0 && v < this.nVertices) {
+			edgeLists[u].addFirst(v);
+			edgeLists[v].addFirst(u);
+		}
+	}
+	
+	public void shortestPath(int s) {
+		int distance[] = new int[this.nVertices];
+		int pred[] = new int[this.nVertices];
+		for (int i = 0; i < this.nVertices; i++) {
+			distance[i] = -1;
+			pred[i] = -1;
+		}
+		distance[s] = 0;
+		LinkedList<Integer> Q = new LinkedList<Integer>();
+		Q.addLast(s);
+		int i = 0;
+		while (!Q.isEmpty()) {
+			i = Q.removeFirst();
+			for (int j = 0; j < this.nVertices; j++) {
+				if (edgeLists[i].contains(j)) {
+					if (distance[j] == -1) {
+						Q.addLast(j);
+						distance[j] = distance[i] + 1;
+						pred[j] = i;
+					}
+				}
+			}
+		}
+		System.out.println(distance);
+		System.out.println(pred);
+	}
+		
+	public void dfs() {
+		System.out.println("DFS for the graph is : ");
+		Stack<Vertex> s = new Stack<Vertex>(); 
+		Vertex current = null;
+		int next = 0;
+		s.push(vertices[0]);
+		while (!s.isEmpty()) {
+			current = s.pop();
+			current.display();
+			current.visited = true;
+			next = getAdjUnvisited(current.label);
+			if (next != -1) {
+				s.push(vertices[next]);
+			}
+		}
+		for (int j = 0; j < this.nVertices; j++) {
+			vertices[j].visited = false;
+		}
+		
+	}
+	
+	public void bfs() {
+		System.out.println("BFS for the graph is : ");
+		LinkedList<Vertex> Q = new LinkedList<Vertex>();
+		Vertex current = null;
+		int next = 0;
+		vertices[0].visited = true;
+		Q.addLast(vertices[0]);
+		while (!Q.isEmpty()) {
+			current = Q.removeFirst();
+			current.display();
+			next = getAdjUnvisited(current.label);
+			while (next != -1) {
+				vertices[next].visited = true;
+				Q.addLast(vertices[next]);
+				next = getAdjUnvisited(current.label);
+			}
+		}
+	}
+	
+	public int getAdjUnvisited(int i){
+		if (i >= 0 && i < this.nVertices) {
+			for (int j = 0; j < this.nVertices; j++) {
+				if (edgeLists[i].contains(j)) {
+					if(vertices[j].visited == false)
+						return j;
+				}
+			}
+		}
+		return -1;
+	}
+	
+	public boolean isEdge(int u, int v) {
+		if (u >= 0 && u < this.nVertices && v >= 0 && v < this.nVertices) {
+			return(edgeLists[u].contains(v));
+		}
+		return false;
+	}
+	
+	
+	
+	public static void main(String args[]) {
+		System.out.println("Hi");
+		Graph g = new Graph(6);
+		g.addEdge(0,1);
+		g.addEdge(0,2);
+		g.addEdge(0,3);
+		g.addEdge(1,4);
+		g.addEdge(2,4);
+		g.addEdge(2,3);
+		g.addEdge(3,5);
+		g.addEdge(4,5);
+		g.dfs();
+		g.bfs();
+	}
+}

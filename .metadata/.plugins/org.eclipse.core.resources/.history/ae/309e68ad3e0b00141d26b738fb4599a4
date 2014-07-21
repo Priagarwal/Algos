@@ -1,0 +1,60 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+
+
+public class Finder {
+	HashMap<String,ArrayList<Integer>> words;
+	
+	
+	
+	
+	public Finder(String w[]) {
+		words = new HashMap<String,ArrayList<Integer>>();
+		String word;
+		for (int i = 0; i < w.length; i++) {
+			ArrayList<Integer> l = new ArrayList<Integer>();
+			if (!words.containsKey(w[i])) {
+				l.add(i);
+				words.put(w[i], l);
+			} else {
+				l = words.get(w[i]);
+				l.add(i);				
+			}
+		}
+	}
+	
+	public int distance(String a, String b) {
+		if (a.equals(b))
+			return 0;
+		ArrayList<Integer> indices_a = words.get(a);
+		ArrayList<Integer> indices_b = words.get(b);
+		int dist = -1;		
+		int min_dist = Math.abs(indices_a.get(0) - indices_b.get(0));
+		for (int l = 0; l < indices_a.size() ; l++) {
+			for (int m = 0; m < indices_b.size(); m++) {
+				dist = Math.abs(indices_a.get(l) - indices_a.get(m));
+				if (dist == 1)
+					return 1;
+				if (dist < min_dist) {
+					min_dist = dist;
+				}
+			}
+		}
+		return min_dist;
+	}
+	
+	public void printWords(){
+		//for (int i = 0; i < words.size(); i++) {
+			System.out.println(words);
+		//}
+	}
+	
+	public static void main(String[] args) {
+		String w[] = new String[] {"the", "quick", "brown", "fox", "quick"};
+		Finder myFinder = new Finder(w);
+		//finder.printWords();
+		myFinder.printWords();
+		System.out.println(myFinder.distance("the","brown"));
+	}
+
+}

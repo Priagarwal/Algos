@@ -1,0 +1,25 @@
+
+public class PriorityQueue {
+	Edge a[];
+	int heapsize;
+	int MAX;
+	
+	int parent(int i) {
+		if ( i > 0 && i < heapsize) {
+			return((i - 1)/2);
+		}
+		return -1;
+	}
+	
+	int lchild(int i) {
+		if ( i > 0 && i < heapsize) {
+			return(2*i + 1);
+		}
+		return -1;
+	}
+	
+	public PriorityQueue() {
+		// TODO Auto-generated constructor stub
+	}
+
+}

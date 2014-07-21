@@ -1,0 +1,28 @@
+
+public class PQ {
+	int a[];
+	int n;
+	int heapsize;
+	
+	public PQ(int n) {
+		this.n = n;
+		a = new int[n];
+	}
+	
+	public void insert(int s) {
+		if (this.heapsize < this.n) {
+			a[heapsize] = s;
+			this.heapsize++;
+		}
+	}
+	
+	public int delelteMin(int distance[]) {
+		int min = 0;
+		for (int i = 0; i < this.heapsize; i++) {
+			if (distance[a[i]] < distance[a[min]])
+				a[min] = a[i];
+		}
+		
+		return min;
+	}
+}

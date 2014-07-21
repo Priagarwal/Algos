@@ -1,0 +1,267 @@
+import java.util.LinkedList;
+import java.util.Stack;
+
+
+public class Bst {
+	private Node root;
+	
+	public Bst(Node r) {
+		this.root = r;
+	}
+	
+	public Bst() {
+		this.root = null;
+	}
+	
+	public Node insertRecursive(Node root, int d) {
+		if (root == null) {
+			root = new Node(d);
+			return root;
+		} else if ( d >= root.getData()) {
+			root.setRchild(insertRecursive(root.getRchild(), d));
+			return root;
+		} else {
+			root.setLchild(insertRecursive(root.getLchild(), d));
+			return root;
+		}
+	}
+	
+	public void insertIterative(Node root, int d) {
+		//System.out.println("in insertIterative");
+		if (root == null) {
+			root = new Node(d);
+		} else {
+			Node parent = root;
+			while (root != null) {
+				//System.out.println("Now root is " + root.getData());
+				parent = root;
+				if (d >= root.getData()) {
+					root = root.getRchild();
+					if (root == null) {
+						root = new Node(d);
+						parent.setRchild(root);
+						return;
+					}
+				} else {
+					root = root.getLchild();
+					if (root == null) {
+						root = new Node(d);
+						parent.setLchild(root);
+						return;
+					}
+				}
+			}
+		}
+	}
+	
+	
+	
+	public boolean searchRecursive(Node root, int d) {
+		if (root == null) {
+			return false;
+		} else if (d == root.getData()){
+			return true;
+		}else if ( d > root.getData()) {
+			return searchRecursive(root.getRchild(), d);
+		} else {
+			return searchRecursive(root.getLchild(), d);
+		}
+	}
+	
+	public Node searchIterative(Node root, int d) {
+		if (root == null) {
+			return false;
+		} else {
+			while (root != null) {
+				if (d == root.getData()){
+					return true;
+				} else if (d > root.getData()) {
+					root = root.getRchild();
+				} else {
+					root = root.getLchild();				
+				}
+			}
+		}
+		return root;
+	}
+	
+	public void inorderRecursive(Node root) {
+		if (root == null) {
+			return;
+		} else {
+			inorderRecursive(root.getLchild());
+			System.out.print(root.getData() + " ");
+			inorderRecursive(root.getRchild());
+		}
+	}
+	
+	public void inorderIterative() {
+		if (this.root == null) {
+			return;
+		} else {
+			Node current, prev;
+			Stack<Node> s = new Stack<Node>();
+			s.push(root);
+			current = root;
+			while (!s.isEmpty()) {
+				//System.out.println("in while");
+				prev = current;
+				current = s.pop();
+				if (current.getRchild() != null) {
+					s.push(current.getRchild());
+				}
+				if (current.isChildless() || current.isInorderSuccessorOf(prev)) {
+					System.out.print(current.getData() + " ");
+					//prev = current;
+				} else {
+					s.push(current);
+					if (current.getLchild() != null) {
+						s.push(current.getLchild());
+					}
+				}	
+				
+			}
+		}
+	}
+	
+	public void preorderRecursive(Node root) {
+		if (root == null) {
+			return;
+		} else {
+			System.out.print(root.getData() + " ");
+			preorderRecursive(root.getLchild());			
+			preorderRecursive(root.getRchild());
+		}
+	}
+	
+	public void preorderIterative(Node root) {
+		if (root == null) {
+			return;
+		} else {
+			Node current;
+			Stack<Node> s = new Stack<Node>();
+			s.push(root);
+			while (!s.isEmpty()) {
+				current = s.pop();
+				System.out.print(current.getData() + " ");
+				if (current.getRchild() != null) {
+					s.push(current.getRchild());
+				}
+				if (current.getLchild() != null) {
+					s.push(current.getLchild());
+				}
+				
+			}
+		}
+	}
+	
+	public void postorderRecursive(Node root) {
+		if (root == null) {
+			return;
+		} else {
+			postorderRecursive(root.getLchild());			
+			postorderRecursive(root.getRchild());
+			System.out.print(root.getData() + " ");
+		}
+	}
+	
+	public void postorderIterative() {
+		System.out.println();
+		if (this.root == null) {
+			return;
+		} else {
+			Node current, prev;
+			Stack<Node> s = new Stack<Node>();
+			s.push(root);
+			current = root;
+			while (!s.isEmpty()) {
+				prev = current;
+				current = s.pop();
+				if (current.isChildless() || current.isParentOf(prev)) {
+					System.out.print(current.getData() + " ");
+					//prev = current;
+				} else {
+					s.push(current);
+					if (current.getRchild() != null) {
+						s.push(current.getRchild());
+					}					
+					if (current.getLchild() != null) {
+						s.push(current.getLchild());
+					}
+				}				
+			}
+		}
+	}
+	
+	public void levelOrderTraversal() {
+		System.out.println();
+		LinkedList<Node> Q = new LinkedList<Node>(); 
+		Node current;
+		if (this.root != null) {
+			Q.addLast(this.root);
+		}
+		while ( !Q.isEmpty()) {
+			current = Q.removeFirst();
+			System.out.print(current.getData() + " ");
+			if (current.getLchild() != null) {
+				Q.addLast(current.getLchild());
+			}
+			if (current.getRchild() != null) {
+				Q.addLast(current.getRchild());
+			}
+		}
+	}
+	
+	public Node getInorderSuccessor(Node c) {
+		if (c.getRchild() != null) {
+			//return left most of right subtree
+			Node root = c.getRchild();
+			while (root.getLchild() != null) {
+				root = root.getLchild();
+			}
+			return root;
+		} else {
+			//if c itself is a left child then return parent of c
+			//else if c itself is a right child 
+			//Stack<Node> s = new Stack<Node>();
+			Node current = this.root, par = this.root;
+			while (current != c) {
+				if (c.getData() == current.getData()) {
+					return par;
+				} else if (c.getData() < current.getData()) {
+					par = current;
+					current = current.getLchild();
+				} else {
+					current = current.getRchild();
+				}				
+			}
+			
+		}
+		return null;
+	}
+	
+	public static void main(String args[]) {
+		//System.out.println("hi");
+		Bst tree = new Bst(new Node(15));
+		tree.insertIterative(tree.root, 10);
+		//tree.inorderRecursive(tree.root);
+		tree.insertIterative(tree.root, 5);
+		tree.inorderIterative();
+//		if (tree.searchIterative(tree.root, 25) ) {
+//			System.out.println("Element exists");
+//		} else {
+//			System.out.println("Element doesnot exist");
+//		}		
+		tree.insertIterative(tree.root, 17);
+//		System.out.println();
+//		tree.inorderRecursive(tree.root);
+//		System.out.println();
+//		tree.preorderIterative(tree.root);
+//		System.out.println();
+		tree.postorderIterative();
+//		System.out.println();
+		tree.levelOrderTraversal();
+	}
+	
+	
+}

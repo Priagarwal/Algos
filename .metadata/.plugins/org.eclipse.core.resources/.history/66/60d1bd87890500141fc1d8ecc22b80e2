@@ -1,0 +1,43 @@
+
+public class DLLNode {
+	int val;
+	DLLNode next;
+	DLLNode prev;
+	
+	public DLLNode(int v) {
+		this.val = v;
+		this.next = null;
+		this.prev = null;
+	}
+	
+	public void setNext(DLLNode n) {
+		this.next = n;
+	}
+	
+	public void setPrev(DLLNode n) {
+		this.prev = n;
+	}
+	
+	public DLLNode getNext() {
+		return this.next;
+	}
+	
+	public DLLNode getPrev() {
+		return this.prev;
+	}
+	
+	public void setValue(int v) {
+		this.val = v;
+	}
+	
+	public int getValue() {
+		return this.val;
+	}
+	
+	public void printDLL() {
+		DLLNode current = this;
+		while (current != null) {
+			System.out.print(current.val + " ");
+		}
+	}
+}

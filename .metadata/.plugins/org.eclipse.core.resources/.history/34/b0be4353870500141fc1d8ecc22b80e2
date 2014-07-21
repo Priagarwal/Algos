@@ -1,0 +1,13 @@
+
+public class DLLNode {
+	int val;
+	DLLNode next;
+	DLLNode prev;
+	
+	public DLLNode(int v) {
+		this.val = v;
+		this.next = null;
+		this.prev = null;
+	}
+	
+}

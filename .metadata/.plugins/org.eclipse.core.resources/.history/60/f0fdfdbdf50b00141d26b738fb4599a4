@@ -1,0 +1,20 @@
+
+public class Graph {
+	int nVertices;
+	int edgeCount;
+	boolean adjMat[][];
+	
+	public Graph(int n) {
+		this.nVertices = n;
+		this.adjMat = new boolean[n][n];
+		this.edgeCount = 0;
+	}
+	
+	public void addEdge(int u, int v) {
+		
+	}
+	
+	public static void main(String args[]) {
+		System.out.println("Hi");
+	}
+}
